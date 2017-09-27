@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.mapper.FlightMapper">
+
+    <select id="findById" resultType="com.example.demo.model.FlightDto">
+        SELECT * FROM FLIGHT t WHERE t.FltID = #{flightId}
+    </select>
+
+    <select id="findByDate" resultType="com.example.demo.model.FlightDto">
+        SELECT * FROM FLIGHT t WHERE t.flight_date = #{flightDate}
+    </select>
+</mapper>

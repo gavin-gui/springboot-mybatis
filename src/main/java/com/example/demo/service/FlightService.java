@@ -5,7 +5,7 @@ import com.example.demo.model.FlightDto;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/9/27.
+ * Created by Administrator on 2017/9/29.
  */
 public interface FlightService {
 

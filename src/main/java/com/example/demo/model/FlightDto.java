@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
-public class FlightDto {
+import java.io.Serializable;
+
+public class FlightDto implements Serializable {
 	private String registration;
 	private String aircraftType;
 	private String flightDate;

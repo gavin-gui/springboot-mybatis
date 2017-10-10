@@ -1,7 +1,12 @@
 package com.example.demo.task;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.example.demo.jms.Producer;
 import com.example.demo.model.FlightDto;
 import com.example.demo.service.FlightService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Administrator on 2017/9/27.
@@ -22,6 +28,9 @@ public class MyTask {
 
     @Autowired
     FlightService flightService;
+
+    @Autowired
+    Producer producer;
 
     /**
      * cron表达式
@@ -51,7 +60,9 @@ public class MyTask {
     public void task1() {
         log.info("每隔5秒打印一次时间");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        log.info("当前时间："+sdf.format(new Date()));
+        String time = sdf.format(new Date());
+        producer.sendMessage(time);
+        log.info("当前时间："+time);
     }
 
     /**
@@ -61,9 +72,22 @@ public class MyTask {
     public void queryFlight() {
         SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
         String date = sdf.format(new Date());
-        List<FlightDto> flightDtos = flightService.findByDate(date);
-        log.info("时间："+date+",航班："+flightDtos);
+        List<FlightDto> flightDtos = flightService.findByDate("16-02-01");
+        flightDtos.stream().filter(Objects::nonNull).forEach(flightDto -> {
+            //使用GsonBuilder设置serializeNulls，让Gson可以序列化空值
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.serializeNulls();
+            Gson gson = gsonBuilder.create();
+            producer.sendMessage(gson.toJson(flightDto));
+            //使用SerializerFeature.WRITE_MAP_NULL_FEATURES，让fastjson不忽略null字段
+            //producer.sendMessage(JSON.toJSONString(flightDto, SerializerFeature.WRITE_MAP_NULL_FEATURES));
+        });
+        log.info("时间：{},航班：{}",date,flightDtos);
+    }
 
+    @Scheduled(fixedRate = 5000)
+    public void jmsTest() {
+        producer.sendMessage("springboot activemq test.");
     }
 
 }

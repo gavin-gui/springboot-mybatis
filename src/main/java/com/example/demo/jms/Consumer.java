@@ -6,7 +6,8 @@ import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Administrator on 2017/9/29.
+ * @author Administrator
+ * @date 2017/9/29.
  * 消息消费者
  */
 @Component

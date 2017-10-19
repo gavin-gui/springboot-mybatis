@@ -8,8 +8,8 @@ import javax.jms.Queue;
 
 
 /**
- * Created by Administrator on 2017/9/29.
- * 消息生产者
+ * @author Administrator
+ * @date 2017/09/27
  */
 @Component
 public class Producer {

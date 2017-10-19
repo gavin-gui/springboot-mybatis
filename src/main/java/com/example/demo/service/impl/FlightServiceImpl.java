@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/9/27.
+ * @author Administrator
+ * @date 2017/09/27
  */
 @Service
 public class FlightServiceImpl implements FlightService {

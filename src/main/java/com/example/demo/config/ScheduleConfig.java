@@ -14,6 +14,8 @@ import java.util.concurrent.Executors;
  * Springboot本身默认的执行方式是串行执行，也就是说无论有多少task，都是一个线程串行执行，并行需手动配置
  * 继承SchedulingConfigurer类并重写其方法即可
  * 详细配置参考：http://www.cnblogs.com/slimer/p/6222485.html
+ * @author Administrator
+ * @date 2017/10/18
  */
 @Configuration
 @EnableScheduling
